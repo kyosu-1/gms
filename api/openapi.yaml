@@ -197,47 +197,12 @@ paths:
           description: No Content
         401:
           description: Unauthorized
-
-  /items/{itemID}/itemUses:
-    get:
-      summary: Get all uses of an item
-      tags: [itemUse]
-      security:
-        - SessionAuth: []
-      responses:
-        200:
-          description: OK
-        401:
-          description: Unauthorized
-    post:
-      summary: Create or update a use of an item
-      tags: [itemUse]
-      security:
-        - SessionAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ItemUse'
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ItemUse'
-        400:
-          description: Bad request
-        401:
-          description: Unauthorized
-
-  /items/{itemID}/itemUses/{itemUseID}:
+  /items/{itemID}/borrow:
     parameters:
-      - $ref: '#/components/parameters/itemUseID'
-    get:
-      summary: Get a use of an item
-      tags: [itemUse]
+      - $ref: '#/components/parameters/itemID'
+    post:
+      summary: Borrow an item
+      tags: [item]
       security:
         - SessionAuth: []
       responses:
@@ -246,21 +211,32 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ItemUse'
+                $ref: '#/components/schemas/Item'
+        400:
+          description: Bad request(Already borrowed)
         401:
           description: Unauthorized
         404:
           description: Not Found
-    delete:
-      summary: Delete a use of an item
-      tags: [itemUse]
+  /items/{itemID}/return:
+    parameters:
+      - $ref: '#/components/parameters/itemID'
+    post:
+      summary: Return an item
+      tags: [item]
       security:
         - SessionAuth: []
       responses:
-        204:
-          description: No Content
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
         401:
           description: Unauthorized
+        404:
+          description: Not Found
 
 components:
   securitySchemes:
@@ -273,7 +249,7 @@ components:
     categoryID:
       name: categoryID
       in: path
-      description: ID of the item type
+      description: ID of the category
       required: true
       schema:
         type: integer
@@ -281,13 +257,6 @@ components:
       name: itemID
       in: path
       description: ID of the item
-      required: true
-      schema:
-        type: integer
-    itemUseID:
-      name: itemUseID
-      in: path
-      description: ID of the item use
       required: true
       schema:
         type: integer
@@ -381,6 +350,8 @@ components:
             $ref: '#/components/schemas/Category'
         itemName:
           type: string
+        borrowerName:
+          type: string
         description:
           type: string
         acquisitionDate:
@@ -395,23 +366,3 @@ components:
         - detail
         - acquisitionDate
         - location
-    ItemUse:
-      type: object
-      properties:
-        id:
-          type: integer
-        userID:
-          type: string
-        itemID:
-          type: integer
-        startDate:
-          type: string
-          format: date
-        endDate:
-          type: string
-          format: date
-      required:
-        - id
-        - userID
-        - itemID
-        - startDate
