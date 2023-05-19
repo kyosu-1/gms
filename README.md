@@ -21,7 +21,9 @@ make up
 make db-migrate
 ```
 
-## Directory構造
+## Directory構造・アーキテクチャ
+
+**Directory構造**
 
 ```
 .
@@ -55,3 +57,7 @@ make db-migrate
     ├── model # ドメインモデル・ロジックの記述場所
     └── repository # 永続化層(データベース)の抽象化と実装
 ```
+
+**アーキテクチャ**
+
+レイヤードアーキテクチャ + DIPの構造
