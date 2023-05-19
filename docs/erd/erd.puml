@@ -4,8 +4,8 @@ package database <<Database>> {
     entity "users" as users {
         * id: int
         --
-        * name: varchar(30)
-        * password: char(32) SHA256のハッシュ値
+        * name: varchar(50)
+        * password: varchar(64) SHA256のハッシュ値
         * created_at: timestamp
         * updated_at: timestamp
     }
@@ -22,7 +22,7 @@ package database <<Database>> {
     entity "categories" as categories {
         * id: int
         --
-        * name: varchar(100)
+        * name: varchar(50)
         * created_at: timestamp
         * updated_at: timestamp
     }
