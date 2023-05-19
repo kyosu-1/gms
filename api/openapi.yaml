@@ -3,24 +3,9 @@ info:
   title: Item Management API
   version: 1.0.0
 servers:
-  - url: https://example.com/api/v1
+  - url: https://localhost:8080/api
+    description: Local server
 paths:
-  /signup:
-    post:
-      summary: User sign up
-      tags: [User]
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserSignup'
-      responses:
-        201:
-          description: Created
-        400:
-          description: Bad request
-
   /signin:
     post:
       summary: User sign in
@@ -31,12 +16,33 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UserSignin'
+      security: []
       responses:
-        200:
-          description: OK
+        204:
+          description: CookieにSESSION_IDを入れて返す
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: SESSION_ID=abcde12345;
         401:
           description: Unauthorized
-
+  /signout:
+    post:
+      summary: User sign out
+      tags: [User]
+      security:
+        - SessionAuth: []
+      responses:
+        204:
+          description: CookieのSESSION_IDを削除する
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: SESSION_ID=; Max-Age=0;
+        401:
+          description: Unauthorized
   /me:
     get:
       summary: Get logged in user's information
@@ -46,96 +52,32 @@ paths:
       responses:
         200:
           description: OK
-        401:
-          description: Unauthorized
-  /groups:
-    get:
-      summary: Get all groups for logged in user
-      tags: [Group]
-      security:
-        - SessionAuth: []
-      responses:
-        200:
-          description: OK
-        401:
-          description: Unauthorized
-    post:
-      summary: Create a new group
-      tags: [Group]
-      security:
-        - SessionAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Group'
-      responses:
-        201:
-          description: Created
-        400:
-          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         401:
           description: Unauthorized
 
-  /groups/{groupID}:
+  /itemTypes:
     get:
-      summary: Get a group
-      tags: [Group]
-      security:
-        - SessionAuth: []
-      responses:
-        200:
-          description: OK
-        401:
-          description: Unauthorized
-        404:
-          description: Not Found
-    put:
-      summary: Update a group
-      tags: [Group]
-      security:
-        - SessionAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Group'
-      responses:
-        200:
-          description: OK
-        400:
-          description: Bad request
-        401:
-          description: Unauthorized
-        404:
-          description: Not Found
-    delete:
-      summary: Delete a group
-      tags: [Group]
-      security:
-        - SessionAuth: []
-      responses:
-        200:
-          description: OK
-        401:
-          description: Unauthorized
-        404:
-          description: Not Found
-  /groups/{groupID}/itemTypes:
-    get:
-      summary: Get all item types in a group
+      summary: Get all item types
       tags: [itemType]
       security:
         - SessionAuth: []
       responses:
         200:
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ItemType'
         401:
           description: Unauthorized
     post:
-      summary: Create a new item type in a group
+      summary: Create or update an item type
       tags: [itemType]
       security:
         - SessionAuth: []
@@ -146,14 +88,20 @@ paths:
             schema:
               $ref: '#/components/schemas/ItemType'
       responses:
-        201:
-          description: Created
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemType'
         400:
           description: Bad request
         401:
           description: Unauthorized
   
-  /groups/{groupID}/itemTypes/{itemTypeID}:
+  /itemTypes/{itemTypeID}:
+    parameters:
+      - $ref: '#/components/parameters/itemTypeID'
     get:
       summary: Get a item type
       tags: [itemType]
@@ -162,26 +110,10 @@ paths:
       responses:
         200:
           description: OK
-        401:
-          description: Unauthorized
-        404:
-          description: Not Found
-    put:
-      summary: Update a item type
-      tags: [itemType]
-      security:
-        - SessionAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ItemType'
-      responses:
-        200:
-          description: OK
-        400:
-          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemType'
         401:
           description: Unauthorized
         404:
@@ -192,25 +124,29 @@ paths:
       security:
         - SessionAuth: []
       responses:
-        200:
-          description: OK
+        204:
+          description: No Content
         401:
           description: Unauthorized
-        404:
-          description: Not Found
-  /groups/{groupID}/items:
+  /items:
     get:
-      summary: Get all items in a group
+      summary: Get all items
       tags: [item]
       security:
         - SessionAuth: []
       responses:
         200:
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
         401:
           description: Unauthorized
     post:
-      summary: Create a new item in a group
+      summary: Create or update an item
       tags: [item]
       security:
         - SessionAuth: []
@@ -219,16 +155,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Item'
+              $ref: '#/components/schemas/ItemPostBody'
       responses:
-        201:
-          description: Created
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
         400:
           description: Bad request
         401:
           description: Unauthorized
 
-  /groups/{groupID}/items/{itemID}:
+  /items/{itemID}:
+    parameters:
+      - $ref: '#/components/parameters/itemID'
     get:
       summary: Get an item
       tags: [item]
@@ -237,26 +179,10 @@ paths:
       responses:
         200:
           description: OK
-        401:
-          description: Unauthorized
-        404:
-          description: Not Found
-    put:
-      summary: Update an item
-      tags: [item]
-      security:
-        - SessionAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Item'
-      responses:
-        200:
-          description: OK
-        400:
-          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
         401:
           description: Unauthorized
         404:
@@ -267,12 +193,10 @@ paths:
       security:
         - SessionAuth: []
       responses:
-        200:
-          description: OK
+        204:
+          description: No Content
         401:
           description: Unauthorized
-        404:
-          description: Not Found
 
   /items/{itemID}/itemUses:
     get:
@@ -286,7 +210,7 @@ paths:
         401:
           description: Unauthorized
     post:
-      summary: Create a new use of an item
+      summary: Create or update a use of an item
       tags: [itemUse]
       security:
         - SessionAuth: []
@@ -297,14 +221,20 @@ paths:
             schema:
               $ref: '#/components/schemas/ItemUse'
       responses:
-        201:
-          description: Created
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemUse'
         400:
           description: Bad request
         401:
           description: Unauthorized
 
   /items/{itemID}/itemUses/{itemUseID}:
+    parameters:
+      - $ref: '#/components/parameters/itemUseID'
     get:
       summary: Get a use of an item
       tags: [itemUse]
@@ -313,26 +243,10 @@ paths:
       responses:
         200:
           description: OK
-        401:
-          description: Unauthorized
-        404:
-          description: Not Found
-    put:
-      summary: Update a use of an item
-      tags: [itemUse]
-      security:
-        - SessionAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ItemUse'
-      responses:
-        200:
-          description: OK
-        400:
-          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemUse'
         401:
           description: Unauthorized
         404:
@@ -343,81 +257,178 @@ paths:
       security:
         - SessionAuth: []
       responses:
-        200:
-          description: OK
+        204:
+          description: No Content
         401:
           description: Unauthorized
-        404:
-          description: Not Found
 
 components:
   securitySchemes:
     SessionAuth:
+      description: Session Auth
       type: apiKey
-      in: header
-      name: X-Session-Token
+      in: cookie
+      name: SESSION_ID
+  parameters:
+    itemTypeID:
+      name: itemTypeID
+      in: path
+      description: ID of the item type
+      required: true
+      schema:
+        type: integer
+    itemID:
+      name: itemID
+      in: path
+      description: ID of the item
+      required: true
+      schema:
+        type: integer
+    itemUseID:
+      name: itemUseID
+      in: path
+      description: ID of the item use
+      required: true
+      schema:
+        type: integer
+  responses:
+    UnauthorizedError:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UnauthorizedError'
+    BadRequestError:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadRequestError'
   schemas:
-    UserSignup:
+    UnauthorizedError:
       type: object
       properties:
-        ID:
+        error:
           type: string
-        Name:
-          type: string
-        Password:
+    BadRequestError:
+      type: object
+      properties:
+        error:
           type: string
     UserSignin:
       type: object
       properties:
-        ID:
+        id:
           type: string
-        Password:
+        password:
           type: string
-    Group:
+      required:
+        - id
+        - password
+    User:
       type: object
       properties:
-        ID:
+        id:
           type: string
-        GroupName:
+        name:
           type: string
+      required:
+        - id
+        - name
     ItemType:
       type: object
       properties:
-        ID:
+        id:
           type: integer
-        GroupID:
+        itemTypeName:
           type: string
-        ItemTypeName:
+      required:
+        - id
+        - itemTypeName
+    ItemPostBody:
+      type: object
+      properties:
+        id:
+          type: integer
+        itemTypeIDs:
+          type: array
+          items:
+            type: integer
+        itemName:
           type: string
+        details:
+          type: string
+        acquisitionDate:
+          type: string
+          format: date
+        location:
+          type: string
+      required:
+        - id
+        - itemTypeIDs
+        - itemName
+        - detail
+        - acquisitionDate
+        - location
     Item:
       type: object
       properties:
-        ID:
+        id:
           type: integer
-        GroupID:
+        itemTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemType'
+        itemName:
           type: string
-        ItemTypeID:
-          type: integer
-        ItemName:
+        details:
           type: string
-        Details:
-          type: string
-        AcquisitionDate:
+        acquisitionDate:
           type: string
           format: date
-        Location:
+        location:
           type: string
-
+      required:
+        - id
+        - itemTypes
+        - itemName
+        - detail
+        - acquisitionDate
+        - location
     ItemUse:
       type: object
       properties:
-        ID:
+        id:
+          type: integer
+        userID:
           type: string
-        UserID:
-          type: string
-        AcquisitionDate:
+        itemID:
+          type: integer
+        acquisitionDate:
           type: string
           format: date
-        ReturnDate:
+        returnDate:
           type: string
           format: date
+      required:
+        - id
+        - userID
+        - itemID
+        - acquisitionDate
+    ItemUseBody:
+      type: object
+      properties:
+        userID:
+          type: string
+        itemID:
+          type: integer
+        acquisitionDate:
+          type: string
+          format: date
+        returnDate:
+          type: string
+          format: date
+      required:
+        - userID
+        - itemID
+        - acquisitionDate
