@@ -59,10 +59,10 @@ paths:
         401:
           description: Unauthorized
 
-  /itemTypes:
+  /categories:
     get:
-      summary: Get all item types
-      tags: [itemType]
+      summary: Get all categories
+      tags: [category]
       security:
         - SessionAuth: []
       responses:
@@ -73,12 +73,12 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ItemType'
+                  $ref: '#/components/schemas/Category'
         401:
           description: Unauthorized
     post:
-      summary: Create or update an item type
-      tags: [itemType]
+      summary: Create or update a category
+      tags: [category]
       security:
         - SessionAuth: []
       requestBody:
@@ -86,25 +86,25 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ItemType'
+              $ref: '#/components/schemas/Category'
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ItemType'
+                $ref: '#/components/schemas/Category'
         400:
           description: Bad request
         401:
           description: Unauthorized
   
-  /itemTypes/{itemTypeID}:
+  /categories/{categoryID}:
     parameters:
-      - $ref: '#/components/parameters/itemTypeID'
+      - $ref: '#/components/parameters/categoryID'
     get:
-      summary: Get a item type
-      tags: [itemType]
+      summary: Get a category
+      tags: [category]
       security:
         - SessionAuth: []
       responses:
@@ -113,14 +113,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ItemType'
+                $ref: '#/components/schemas/Category'
         401:
           description: Unauthorized
         404:
           description: Not Found
     delete:
-      summary: Delete a item type
-      tags: [itemType]
+      summary: Delete a category
+      tags: [category]
       security:
         - SessionAuth: []
       responses:
@@ -197,47 +197,12 @@ paths:
           description: No Content
         401:
           description: Unauthorized
-
-  /items/{itemID}/itemUses:
-    get:
-      summary: Get all uses of an item
-      tags: [itemUse]
-      security:
-        - SessionAuth: []
-      responses:
-        200:
-          description: OK
-        401:
-          description: Unauthorized
-    post:
-      summary: Create or update a use of an item
-      tags: [itemUse]
-      security:
-        - SessionAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ItemUse'
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ItemUse'
-        400:
-          description: Bad request
-        401:
-          description: Unauthorized
-
-  /items/{itemID}/itemUses/{itemUseID}:
+  /items/{itemID}/borrow:
     parameters:
-      - $ref: '#/components/parameters/itemUseID'
-    get:
-      summary: Get a use of an item
-      tags: [itemUse]
+      - $ref: '#/components/parameters/itemID'
+    post:
+      summary: Borrow an item
+      tags: [item]
       security:
         - SessionAuth: []
       responses:
@@ -246,21 +211,32 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ItemUse'
+                $ref: '#/components/schemas/Item'
+        400:
+          description: Bad request(Already borrowed)
         401:
           description: Unauthorized
         404:
           description: Not Found
-    delete:
-      summary: Delete a use of an item
-      tags: [itemUse]
+  /items/{itemID}/return:
+    parameters:
+      - $ref: '#/components/parameters/itemID'
+    post:
+      summary: Return an item
+      tags: [item]
       security:
         - SessionAuth: []
       responses:
-        204:
-          description: No Content
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
         401:
           description: Unauthorized
+        404:
+          description: Not Found
 
 components:
   securitySchemes:
@@ -270,10 +246,10 @@ components:
       in: cookie
       name: SESSION_ID
   parameters:
-    itemTypeID:
-      name: itemTypeID
+    categoryID:
+      name: categoryID
       in: path
-      description: ID of the item type
+      description: ID of the category
       required: true
       schema:
         type: integer
@@ -281,13 +257,6 @@ components:
       name: itemID
       in: path
       description: ID of the item
-      required: true
-      schema:
-        type: integer
-    itemUseID:
-      name: itemUseID
-      in: path
-      description: ID of the item use
       required: true
       schema:
         type: integer
@@ -335,28 +304,28 @@ components:
       required:
         - id
         - name
-    ItemType:
+    Category:
       type: object
       properties:
         id:
           type: integer
-        itemTypeName:
+        categoryName:
           type: string
       required:
         - id
-        - itemTypeName
+        - categoryName
     ItemPostBody:
       type: object
       properties:
         id:
           type: integer
-        itemTypeIDs:
+        categoryIDs:
           type: array
           items:
             type: integer
         itemName:
           type: string
-        details:
+        description:
           type: string
         acquisitionDate:
           type: string
@@ -365,7 +334,7 @@ components:
           type: string
       required:
         - id
-        - itemTypeIDs
+        - categoryIDs
         - itemName
         - detail
         - acquisitionDate
@@ -375,13 +344,15 @@ components:
       properties:
         id:
           type: integer
-        itemTypes:
+        categories:
           type: array
           items:
-            $ref: '#/components/schemas/ItemType'
+            $ref: '#/components/schemas/Category'
         itemName:
           type: string
-        details:
+        borrowerName:
+          type: string
+        description:
           type: string
         acquisitionDate:
           type: string
@@ -390,45 +361,8 @@ components:
           type: string
       required:
         - id
-        - itemTypes
+        - categories
         - itemName
         - detail
         - acquisitionDate
         - location
-    ItemUse:
-      type: object
-      properties:
-        id:
-          type: integer
-        userID:
-          type: string
-        itemID:
-          type: integer
-        acquisitionDate:
-          type: string
-          format: date
-        returnDate:
-          type: string
-          format: date
-      required:
-        - id
-        - userID
-        - itemID
-        - acquisitionDate
-    ItemUseBody:
-      type: object
-      properties:
-        userID:
-          type: string
-        itemID:
-          type: integer
-        acquisitionDate:
-          type: string
-          format: date
-        returnDate:
-          type: string
-          format: date
-      required:
-        - userID
-        - itemID
-        - acquisitionDate

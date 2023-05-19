@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  app:
+    image: ims-app
+    container_name: ims-app
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env.dev
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_USER: root
+      MYSQL_DATABASE: ims
+      MYSQL_PASSWORD: passw0rd
+      MYSQL_ROOT_PASSWORD: passw0rd
+      TZ: "Asia/Tokyo"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./ddl:/docker-entrypoint-initdb.d
