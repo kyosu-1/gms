@@ -59,10 +59,10 @@ paths:
         401:
           description: Unauthorized
 
-  /itemTypes:
+  /categorys:
     get:
-      summary: Get all item types
-      tags: [itemType]
+      summary: Get all categorys
+      tags: [category]
       security:
         - SessionAuth: []
       responses:
@@ -73,12 +73,12 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ItemType'
+                  $ref: '#/components/schemas/Category'
         401:
           description: Unauthorized
     post:
-      summary: Create or update an item type
-      tags: [itemType]
+      summary: Create or update a category
+      tags: [category]
       security:
         - SessionAuth: []
       requestBody:
@@ -86,25 +86,25 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ItemType'
+              $ref: '#/components/schemas/Category'
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ItemType'
+                $ref: '#/components/schemas/Category'
         400:
           description: Bad request
         401:
           description: Unauthorized
   
-  /itemTypes/{itemTypeID}:
+  /categorys/{categoryID}:
     parameters:
-      - $ref: '#/components/parameters/itemTypeID'
+      - $ref: '#/components/parameters/categoryID'
     get:
-      summary: Get a item type
-      tags: [itemType]
+      summary: Get a category
+      tags: [category]
       security:
         - SessionAuth: []
       responses:
@@ -113,14 +113,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ItemType'
+                $ref: '#/components/schemas/Category'
         401:
           description: Unauthorized
         404:
           description: Not Found
     delete:
-      summary: Delete a item type
-      tags: [itemType]
+      summary: Delete a category
+      tags: [category]
       security:
         - SessionAuth: []
       responses:
@@ -270,8 +270,8 @@ components:
       in: cookie
       name: SESSION_ID
   parameters:
-    itemTypeID:
-      name: itemTypeID
+    categoryID:
+      name: categoryID
       in: path
       description: ID of the item type
       required: true
@@ -335,22 +335,22 @@ components:
       required:
         - id
         - name
-    ItemType:
+    Category:
       type: object
       properties:
         id:
           type: integer
-        itemTypeName:
+        categoryName:
           type: string
       required:
         - id
-        - itemTypeName
+        - categoryName
     ItemPostBody:
       type: object
       properties:
         id:
           type: integer
-        itemTypeIDs:
+        categoryIDs:
           type: array
           items:
             type: integer
@@ -365,7 +365,7 @@ components:
           type: string
       required:
         - id
-        - itemTypeIDs
+        - categoryIDs
         - itemName
         - detail
         - acquisitionDate
@@ -375,10 +375,10 @@ components:
       properties:
         id:
           type: integer
-        itemTypes:
+        categorys:
           type: array
           items:
-            $ref: '#/components/schemas/ItemType'
+            $ref: '#/components/schemas/Category'
         itemName:
           type: string
         details:
@@ -390,7 +390,7 @@ components:
           type: string
       required:
         - id
-        - itemTypes
+        - categorys
         - itemName
         - detail
         - acquisitionDate
