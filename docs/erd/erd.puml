@@ -33,6 +33,7 @@ package database <<Database>> {
         * name: varchar(100)
         * description: varchar(1000)
         * acquisition_date: date
+        * borrower_id: varchar(30) default null <<FK>>
         * location: varchar(100)
         * created_at: timestamp
         * updated_at: timestamp
@@ -43,24 +44,12 @@ package database <<Database>> {
         * category_id: int <<FK>>
         --
     }
-
-    entity "item_uses" as item_uses {
-        * id: int
-        --
-        * user_id: int <<FK>>
-        * item_id: char(36)<<FK>>
-        * start_date: date
-        * end_data: date
-        * created_at: timestamp
-        * updated_at: timestamp
-    }
 }
 
 ' relationships
 users ||--o{ sessions
 categories ||--o{ categorizations
 items ||--o{ categorizations
-users ||--o{ item_uses
-items ||--o{ item_uses
+users ||--o{ items
 
 @enduml
