@@ -59,9 +59,9 @@ paths:
         401:
           description: Unauthorized
 
-  /categorys:
+  /categories:
     get:
-      summary: Get all categorys
+      summary: Get all categories
       tags: [category]
       security:
         - SessionAuth: []
@@ -99,7 +99,7 @@ paths:
         401:
           description: Unauthorized
   
-  /categorys/{categoryID}:
+  /categories/{categoryID}:
     parameters:
       - $ref: '#/components/parameters/categoryID'
     get:
@@ -356,7 +356,7 @@ components:
             type: integer
         itemName:
           type: string
-        details:
+        description:
           type: string
         acquisitionDate:
           type: string
@@ -375,13 +375,13 @@ components:
       properties:
         id:
           type: integer
-        categorys:
+        categories:
           type: array
           items:
             $ref: '#/components/schemas/Category'
         itemName:
           type: string
-        details:
+        description:
           type: string
         acquisitionDate:
           type: string
@@ -390,7 +390,7 @@ components:
           type: string
       required:
         - id
-        - categorys
+        - categories
         - itemName
         - detail
         - acquisitionDate
@@ -404,31 +404,14 @@ components:
           type: string
         itemID:
           type: integer
-        acquisitionDate:
+        startDate:
           type: string
           format: date
-        returnDate:
+        endDate:
           type: string
           format: date
       required:
         - id
         - userID
         - itemID
-        - acquisitionDate
-    ItemUseBody:
-      type: object
-      properties:
-        userID:
-          type: string
-        itemID:
-          type: integer
-        acquisitionDate:
-          type: string
-          format: date
-        returnDate:
-          type: string
-          format: date
-      required:
-        - userID
-        - itemID
-        - acquisitionDate
+        - startDate
