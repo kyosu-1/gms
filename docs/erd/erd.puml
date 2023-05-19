@@ -1,0 +1,66 @@
+@startuml タスク管理アプリ
+
+package database <<Database>> {
+    entity "users" as users {
+        * id: int
+        --
+        * name: varchar(30)
+        * password: char(32) SHA256のハッシュ値
+        * created_at: timestamp
+        * updated_at: timestamp
+    }
+
+    entity "sessions" as sessions{
+        * id: char(36) uuid
+        --
+        * user_id: int <<FK>>
+        * expires_at: datetime
+        * created_at: timestamp
+        * updated_at: timestamp
+    }
+
+    entity "categories" as categories {
+        * id: int
+        --
+        * name: varchar(100)
+        * created_at: timestamp
+        * updated_at: timestamp
+    }
+    
+    entity "items" as items {
+        * id: int
+        --
+        * name: varchar(100)
+        * description: varchar(1000)
+        * acquisition_date: date
+        * location: varchar(100)
+        * created_at: timestamp
+        * updated_at: timestamp
+    }
+
+    entity "categorizations" as categorizations {
+        * item_id: int <<FK>>
+        * category_id: int <<FK>>
+        --
+    }
+
+    entity "item_uses" as item_uses {
+        * id: int
+        --
+        * user_id: int <<FK>>
+        * item_id: char(36)<<FK>>
+        * start_date: date
+        * end_data: date
+        * created_at: timestamp
+        * updated_at: timestamp
+    }
+}
+
+' relationships
+users ||--o{ sessions
+categories ||--o{ categorizations
+items ||--o{ categorizations
+users ||--o{ item_uses
+items ||--o{ item_uses
+
+@enduml
