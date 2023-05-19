@@ -12,3 +12,11 @@ gen-api:
 	mkdir -p ./gen/api
 	go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@v1.11.0
 	oapi-codegen --config config/oapi-codegen/server.yaml ./api/openapi.yaml
+
+.PHONY: up
+up:
+	docker-compose up
+
+.PHONY: down
+down:
+	docker-compose down
