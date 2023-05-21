@@ -13,7 +13,7 @@ func NewHandlers() *Handlers {
 }
 
 func (h *Handlers) GetHealth(ctx echo.Context) error {
-	return ctx.JSON(200, "OK")
+	return ctx.JSON(200, map[string]string{"status": "OK"})
 }
 
 func (h *Handlers) GetCategories(ctx echo.Context) error {
