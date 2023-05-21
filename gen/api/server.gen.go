@@ -93,6 +93,9 @@ type ServerInterface interface {
 	// Get a category
 	// (GET /categories/{categoryID})
 	GetCategoriesCategoryID(ctx echo.Context, categoryID CategoryID) error
+	// Health check
+	// (GET /health)
+	GetHealth(ctx echo.Context) error
 	// Get all items
 	// (GET /items)
 	GetItems(ctx echo.Context) error
@@ -182,6 +185,15 @@ func (w *ServerInterfaceWrapper) GetCategoriesCategoryID(ctx echo.Context) error
 
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.GetCategoriesCategoryID(ctx, categoryID)
+	return err
+}
+
+// GetHealth converts echo context to params.
+func (w *ServerInterfaceWrapper) GetHealth(ctx echo.Context) error {
+	var err error
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.GetHealth(ctx)
 	return err
 }
 
@@ -342,6 +354,7 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 	router.POST(baseURL+"/categories", wrapper.PostCategories)
 	router.DELETE(baseURL+"/categories/:categoryID", wrapper.DeleteCategoriesCategoryID)
 	router.GET(baseURL+"/categories/:categoryID", wrapper.GetCategoriesCategoryID)
+	router.GET(baseURL+"/health", wrapper.GetHealth)
 	router.GET(baseURL+"/items", wrapper.GetItems)
 	router.POST(baseURL+"/items", wrapper.PostItems)
 	router.DELETE(baseURL+"/items/:itemID", wrapper.DeleteItemsItemID)

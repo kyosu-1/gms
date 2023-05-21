@@ -16,7 +16,7 @@ services:
     image: mysql:latest
     restart: always
     environment:
-      MYSQL_USER: root
+      MYSQL_USER: ims
       MYSQL_DATABASE: ims
       MYSQL_PASSWORD: passw0rd
       MYSQL_ROOT_PASSWORD: passw0rd
