@@ -3,6 +3,7 @@ module github.com/kyosu-1/ims
 go 1.20
 
 require (
+	github.com/caarlos0/env/v7 v7.1.0
 	github.com/deepmap/oapi-codegen v1.12.4
 	github.com/labstack/echo/v4 v4.10.2
 )
