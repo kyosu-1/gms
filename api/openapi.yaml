@@ -6,6 +6,21 @@ servers:
   - url: https://localhost:8080/api
     description: Local server
 paths:
+  /health:
+    get:
+      summary: Health check
+      tags: [Health]
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: OK
   /signin:
     post:
       summary: User sign in
