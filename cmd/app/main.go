@@ -5,8 +5,8 @@ import (
 	"github.com/labstack/echo/v4"
 
 	"github.com/kyosu-1/ims/gen/api"
-	"github.com/kyosu-1/ims/internal/handler"
 	"github.com/kyosu-1/ims/internal/config"
+	"github.com/kyosu-1/ims/internal/handler"
 )
 
 func main() {
