@@ -9,7 +9,7 @@ paths:
   /health:
     get:
       summary: Health check
-      tags: [Health]
+      tags: [health]
       responses:
         200:
           description: OK
@@ -24,7 +24,7 @@ paths:
   /signin:
     post:
       summary: User sign in
-      tags: [User]
+      tags: [user]
       requestBody:
         required: true
         content:
@@ -45,7 +45,7 @@ paths:
   /signout:
     post:
       summary: User sign out
-      tags: [User]
+      tags: [user]
       security:
         - SessionAuth: []
       responses:
@@ -61,7 +61,7 @@ paths:
   /me:
     get:
       summary: Get logged in user's information
-      tags: [User]
+      tags: [user]
       security:
         - SessionAuth: []
       responses:
