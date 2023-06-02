@@ -18,8 +18,8 @@ const (
 
 // Category defines model for Category.
 type Category struct {
-	CategoryName string `json:"categoryName"`
-	Id           int    `json:"id"`
+	CategoryName string             `json:"categoryName"`
+	Id           openapi_types.UUID `json:"id"`
 }
 
 // Item defines model for Item.
@@ -28,19 +28,19 @@ type Item struct {
 	BorrowerName    *string            `json:"borrowerName,omitempty"`
 	Categories      []Category         `json:"categories"`
 	Description     *string            `json:"description,omitempty"`
-	Id              int                `json:"id"`
+	Id              openapi_types.UUID `json:"id"`
 	ItemName        string             `json:"itemName"`
 	Location        string             `json:"location"`
 }
 
 // ItemPostBody defines model for ItemPostBody.
 type ItemPostBody struct {
-	AcquisitionDate openapi_types.Date `json:"acquisitionDate"`
-	CategoryIDs     []int              `json:"categoryIDs"`
-	Description     *string            `json:"description,omitempty"`
-	Id              int                `json:"id"`
-	ItemName        string             `json:"itemName"`
-	Location        string             `json:"location"`
+	AcquisitionDate openapi_types.Date   `json:"acquisitionDate"`
+	CategoryIDs     []openapi_types.UUID `json:"categoryIDs"`
+	Description     *string              `json:"description,omitempty"`
+	Id              openapi_types.UUID   `json:"id"`
+	ItemName        string               `json:"itemName"`
+	Location        string               `json:"location"`
 }
 
 // User defines model for User.
@@ -56,10 +56,10 @@ type UserSignin struct {
 }
 
 // CategoryID defines model for categoryID.
-type CategoryID = int
+type CategoryID = openapi_types.UUID
 
 // ItemID defines model for itemID.
-type ItemID = int
+type ItemID = openapi_types.UUID
 
 // PostCategoriesJSONBody defines parameters for PostCategories.
 type PostCategoriesJSONBody = Category
