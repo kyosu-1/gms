@@ -11,7 +11,7 @@ package database <<Database>> {
     }
 
     entity "categories" as categories {
-        * id: int
+        * id: char(36) UUID
         --
         * name: varchar(50)
         * created_at: timestamp
@@ -19,7 +19,7 @@ package database <<Database>> {
     }
 
     entity "items" as items {
-        * id: int
+        * id: char(36) UUID
         --
         * name: varchar(100)
         * description: varchar(1000)
@@ -31,8 +31,8 @@ package database <<Database>> {
     }
 
     entity "categorizations" as categorizations {
-        * item_id: int <<FK>>
-        * category_id: int <<FK>>
+        * item_id: char(36) <<FK>>
+        * category_id: char(36) <<FK>>
         --
     }
 }
