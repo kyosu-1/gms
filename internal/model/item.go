@@ -3,7 +3,7 @@ package model
 import "time"
 
 type Item struct {
-	ID              int
+	ID              string
 	Name            string
 	Description     string
 	AcquisitionDate time.Time
