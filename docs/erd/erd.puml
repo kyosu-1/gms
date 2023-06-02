@@ -2,7 +2,7 @@
 
 package database <<Database>> {
     entity "users" as users {
-        * id: int
+        * id: varchar(50)
         --
         * name: varchar(50)
         * password: varchar(64) SHA256のハッシュ値
@@ -10,25 +10,16 @@ package database <<Database>> {
         * updated_at: timestamp
     }
 
-    entity "sessions" as sessions{
-        * id: char(36) uuid
-        --
-        * user_id: int <<FK>>
-        * expires_at: datetime
-        * created_at: timestamp
-        * updated_at: timestamp
-    }
-
     entity "categories" as categories {
-        * id: int
+        * id: char(36) UUID
         --
         * name: varchar(50)
         * created_at: timestamp
         * updated_at: timestamp
     }
-    
+
     entity "items" as items {
-        * id: int
+        * id: char(36) UUID
         --
         * name: varchar(100)
         * description: varchar(1000)
@@ -40,14 +31,13 @@ package database <<Database>> {
     }
 
     entity "categorizations" as categorizations {
-        * item_id: int <<FK>>
-        * category_id: int <<FK>>
+        * item_id: char(36) <<FK>>
+        * category_id: char(36) <<FK>>
         --
     }
 }
 
 ' relationships
-users ||--o{ sessions
 categories ||--o{ categorizations
 items ||--o{ categorizations
 users ||--o{ items

@@ -267,14 +267,16 @@ components:
       description: ID of the category
       required: true
       schema:
-        type: integer
+        type: string
+        format: uuid
     itemID:
       name: itemID
       in: path
       description: ID of the item
       required: true
       schema:
-        type: integer
+        type: string
+        format: uuid
   responses:
     UnauthorizedError:
       description: Unauthorized
@@ -323,7 +325,8 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         categoryName:
           type: string
       required:
@@ -333,11 +336,13 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         categoryIDs:
           type: array
           items:
-            type: integer
+            type: string
+            format: uuid
         itemName:
           type: string
         description:
@@ -358,7 +363,8 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         categories:
           type: array
           items:

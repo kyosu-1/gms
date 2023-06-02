@@ -1,12 +1,15 @@
 package config
 
 import (
+	"fmt"
+
 	"github.com/caarlos0/env/v7"
 )
 
 type Config struct {
 	Server ServerConfig
 	DB     DBConfig
+	Session SessionConfig
 }
 
 type ServerConfig struct {
@@ -22,10 +25,20 @@ type DBConfig struct {
 	Name     string `env:"DB_DATABASE" envDefault:"ims"`
 }
 
+type SessionConfig struct {
+	MaxAge int    `env:"SESSION_MAX_AGE" envDefault:"86400"`
+	SessionCookieInsecure bool `env:"SESSION_COOKIE_INSECURE" envDefault:"true"`
+	Secret string `env:"SESSION_SECRET" envDefault:"secret"`
+}
+
 func New() (*Config, error) {
 	cfg := &Config{}
 	if err := env.Parse(cfg); err != nil {
 		return nil, err
 	}
 	return cfg, nil
+}
+
+func (c *DBConfig) DSN() string {
+	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=True&loc=Asia%%2FTokyo&charset=utf8mb4", c.User, c.Password, c.Host, c.Port, c.Name)
 }
