@@ -4,12 +4,25 @@ import (
 	"github.com/labstack/echo/v4"
 
 	"github.com/kyosu-1/ims/gen/api"
+	"github.com/kyosu-1/ims/internal/repository"
 )
 
-type Handlers struct{}
+type Handlers struct {
+	userRepository     repository.UserRepository
+	categoryRepository repository.CategoryRepository
+	itemRepository     repository.ItemRepository
+}
 
-func NewHandlers() *Handlers {
-	return &Handlers{}
+func NewHandlers(
+	userRepository repository.UserRepository,
+	categoryRepository repository.CategoryRepository,
+	itemRepository repository.ItemRepository,
+) *Handlers {
+	return &Handlers{
+		userRepository:     userRepository,
+		categoryRepository: categoryRepository,
+		itemRepository:     itemRepository,
+	}
 }
 
 func (h *Handlers) GetHealth(ctx echo.Context) error {
@@ -22,7 +35,6 @@ func (h *Handlers) GetCategories(ctx echo.Context) error {
 }
 
 func (h *Handlers) PostCategories(ctx echo.Context) error {
-	// TODO: implement
 	return nil
 }
 
