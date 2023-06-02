@@ -8,7 +8,7 @@ import (
 
 type ItemRepository interface {
 	FindAllItems(ctx context.Context) ([]*model.Item, error)
-	FindItemByID(ctx context.Context, id int) (*model.Item, error)
+	FindItemByID(ctx context.Context, id string) (*model.Item, error)
 	SaveItem(ctx context.Context, item *model.Item) error
 	DeleteItem(ctx context.Context, id string) error
 }
