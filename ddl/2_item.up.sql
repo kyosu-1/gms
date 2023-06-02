@@ -1,6 +1,6 @@
 -- category
 CREATE TABLE IF NOT EXISTS category (
-    id INT UNSIGNED NOT NULL,
+    id CHAR(36) NOT NULL COMMENT 'UUID',
     name VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS category (
 
 -- item
 CREATE TABLE IF NOT EXISTS item (
-    id INT UNSIGNED NOT NULL,
+    id CHAR(36) NOT NULL COMMENT 'UUID',
     name VARCHAR(100) NOT NULL,
     description VARCHAR(1000) NOT NULL,
     acquisition_date DATE NOT NULL,
@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS item (
 
 -- categorizations
 CREATE TABLE IF NOT EXISTS categorizations (
-    item_id INT UNSIGNED NOT NULL,
-    category_id INT UNSIGNED NOT NULL,
+    item_id CHAR(36) NOT NULL,
+    category_id CHAR(36) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (item_id, category_id),
