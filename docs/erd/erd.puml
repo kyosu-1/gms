@@ -10,15 +10,6 @@ package database <<Database>> {
         * updated_at: timestamp
     }
 
-    entity "sessions" as sessions{
-        * id: char(36) uuid
-        --
-        * user_id: varchar(50) <<FK>>
-        * expires_at: datetime
-        * created_at: timestamp
-        * updated_at: timestamp
-    }
-
     entity "categories" as categories {
         * id: int
         --
@@ -47,7 +38,6 @@ package database <<Database>> {
 }
 
 ' relationships
-users ||--o{ sessions
 categories ||--o{ categorizations
 items ||--o{ categorizations
 users ||--o{ items
