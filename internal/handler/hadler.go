@@ -30,7 +30,6 @@ func (h *Handlers) GetHealth(ctx echo.Context) error {
 }
 
 func (h *Handlers) GetCategories(ctx echo.Context) error {
-	// TODO: implement
 	return nil
 }
 
