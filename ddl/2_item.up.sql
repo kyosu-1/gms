@@ -1,5 +1,5 @@
--- category
-CREATE TABLE IF NOT EXISTS category (
+-- categories
+CREATE TABLE IF NOT EXISTS categories (
     id CHAR(36) NOT NULL COMMENT 'UUID',
     name VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -7,18 +7,18 @@ CREATE TABLE IF NOT EXISTS category (
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- item
-CREATE TABLE IF NOT EXISTS item (
+-- items
+CREATE TABLE IF NOT EXISTS items (
     id CHAR(36) NOT NULL COMMENT 'UUID',
     name VARCHAR(100) NOT NULL,
     description VARCHAR(1000) NOT NULL,
     acquisition_date DATE NOT NULL,
-    brrower_id INT UNSIGNED DEFAULT NULL,
+    borrower_id VARCHAR(50) DEFAULT NULL,
     location VARCHAR(100) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
-    FOREIGN KEY (brrower_id) REFERENCES user(id)
+    FOREIGN KEY (borrower_id) REFERENCES users(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- categorizations
@@ -28,6 +28,6 @@ CREATE TABLE IF NOT EXISTS categorizations (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (item_id, category_id),
-    FOREIGN KEY (item_id) REFERENCES item(id),
-    FOREIGN KEY (category_id) REFERENCES category(id)
+    FOREIGN KEY (item_id) REFERENCES items(id),
+    FOREIGN KEY (category_id) REFERENCES categories(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

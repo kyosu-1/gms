@@ -23,5 +23,3 @@ services:
       TZ: "Asia/Tokyo"
     ports:
       - "3306:3306"
-    volumes:
-      - ./ddl:/docker-entrypoint-initdb.d

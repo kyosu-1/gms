@@ -1,5 +1,5 @@
--- user
-CREATE TABLE users IF NOT EXISTS (
+-- users
+CREATE TABLE IF NOT EXISTS users (
     id VARCHAR(50) NOT NULL,
     name VARCHAR(50) NOT NULL,
     password VARCHAR(64) NOT NULL, -- sha256 hash
