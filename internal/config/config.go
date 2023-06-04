@@ -7,8 +7,8 @@ import (
 )
 
 type Config struct {
-	Server ServerConfig
-	DB     DBConfig
+	Server  ServerConfig
+	DB      DBConfig
 	Session SessionConfig
 }
 
@@ -26,9 +26,9 @@ type DBConfig struct {
 }
 
 type SessionConfig struct {
-	MaxAge int    `env:"SESSION_MAX_AGE" envDefault:"86400"`
-	SessionCookieInsecure bool `env:"SESSION_COOKIE_INSECURE" envDefault:"true"`
-	Secret string `env:"SESSION_SECRET" envDefault:"secret"`
+	MaxAge                int    `env:"SESSION_MAX_AGE" envDefault:"86400"`
+	SessionCookieInsecure bool   `env:"SESSION_COOKIE_INSECURE" envDefault:"true"`
+	Secret                string `env:"SESSION_SECRET" envDefault:"secret"`
 }
 
 func New() (*Config, error) {
