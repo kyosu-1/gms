@@ -3,9 +3,10 @@ package main
 import (
 	"fmt"
 
-	"github.com/jmoiron/sqlx"
-	"github.com/labstack/echo/v4"
 	"github.com/gorilla/sessions"
+	"github.com/jmoiron/sqlx"
+	"github.com/labstack/echo-contrib/session"
+	"github.com/labstack/echo/v4"
 
 	"github.com/kyosu-1/ims/gen/api"
 	"github.com/kyosu-1/ims/internal/config"
@@ -31,6 +32,13 @@ func main() {
 		rdb.NewItemRepository(db),
 		store,
 	)
+
+	e.Use(session.MiddlewareWithConfig(session.Config{
+		Store: store,
+		Skipper: func(ctx echo.Context) bool {
+			return ctx.Path() == "/health" || ctx.Path() == "/signin"
+		},
+	}))
 
 	api.RegisterHandlers(e, h)
 
