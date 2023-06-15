@@ -29,6 +29,7 @@ func main() {
 		rdb.NewUserRepository(db),
 		rdb.NewCategoryRepository(db),
 		rdb.NewItemRepository(db),
+		store,
 	)
 
 	api.RegisterHandlers(e, h)
