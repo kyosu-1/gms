@@ -3,9 +3,9 @@ package handler
 import (
 	"github.com/labstack/echo/v4"
 
+	"github.com/gorilla/sessions"
 	"github.com/kyosu-1/ims/gen/api"
 	"github.com/kyosu-1/ims/internal/repository"
-	"github.com/gorilla/sessions"
 )
 
 type Handlers struct {
@@ -19,7 +19,7 @@ func NewHandlers(
 	userRepository repository.UserRepository,
 	categoryRepository repository.CategoryRepository,
 	itemRepository repository.ItemRepository,
-	sessionStore   sessions.Store,
+	sessionStore sessions.Store,
 ) *Handlers {
 	return &Handlers{
 		userRepository:     userRepository,
