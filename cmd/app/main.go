@@ -5,6 +5,7 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
+	"github.com/gorilla/sessions"
 
 	"github.com/kyosu-1/ims/gen/api"
 	"github.com/kyosu-1/ims/internal/config"
@@ -21,6 +22,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	store := sessions.NewCookieStore([]byte(cfg.Session.Secret))
 
 	e := echo.New()
 	h := handler.NewHandlers(
