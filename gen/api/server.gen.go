@@ -18,8 +18,8 @@ const (
 
 // Category defines model for Category.
 type Category struct {
-	CategoryName string             `json:"categoryName"`
-	Id           openapi_types.UUID `json:"id"`
+	Id   openapi_types.UUID `json:"id"`
+	Name string             `json:"name"`
 }
 
 // Item defines model for Item.
