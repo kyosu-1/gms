@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/Masterminds/squirrel"
+	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 
 	"github.com/kyosu-1/ims/internal/model"
@@ -14,8 +15,8 @@ const (
 )
 
 type Category struct {
-	ID   string `db:"id"`
-	Name string `db:"name"`
+	ID   uuid.UUID `db:"id"`
+	Name string    `db:"name"`
 }
 
 type CategoryRepository struct {

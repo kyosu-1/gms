@@ -1,6 +1,10 @@
 package model
 
+import (
+	"github.com/google/uuid"
+)
+
 type Category struct {
-	ID   string
+	ID   uuid.UUID
 	Name string
 }
