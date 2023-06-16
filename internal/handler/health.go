@@ -4,6 +4,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (h *Handlers) GetHealth(ctx echo.Context) error {
-	return ctx.JSON(200, map[string]string{"status": "OK"})
+func (h *Handlers) GetHealth(ec echo.Context) error {
+	return ec.JSON(200, map[string]string{"status": "OK"})
 }
