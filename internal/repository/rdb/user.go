@@ -37,8 +37,8 @@ func (r *UserRepository) FindUserByID(ctx context.Context, id string) (*model.Us
 		return nil, err
 	}
 	return &model.User{
-		ID:       user.ID,
-		Name:     user.Name,
-		Password: user.Password,
+		ID:             user.ID,
+		Name:           user.Name,
+		HashedPassword: user.Password,
 	}, nil
 }

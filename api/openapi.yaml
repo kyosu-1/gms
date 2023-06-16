@@ -327,11 +327,11 @@ components:
         id:
           type: string
           format: uuid
-        categoryName:
+        name:
           type: string
       required:
         - id
-        - categoryName
+        - name
     ItemPostBody:
       type: object
       properties:
