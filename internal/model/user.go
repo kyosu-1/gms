@@ -1,5 +1,10 @@
 package model
 
+import (
+	"crypto/sha256"
+	"encoding/base64"
+)
+
 type User struct {
 	ID             string
 	Name           string
@@ -7,5 +12,6 @@ type User struct {
 }
 
 func (u *User) IsSamePassword(password string) bool {
-	return u.HashedPassword == password
+	hash := sha256.Sum256([]byte(password))
+	return base64.StdEncoding.EncodeToString(hash[:]) == u.HashedPassword
 }
