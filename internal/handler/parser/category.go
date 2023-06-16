@@ -15,3 +15,10 @@ func (m *Model) Category(category *model.Category) *api.Category {
 		Name: category.Name,
 	}
 }
+
+func (a *Api) Category(category *api.Category) *model.Category {
+	return &model.Category{
+		ID:   category.Id,
+		Name: category.Name,
+	}
+}
