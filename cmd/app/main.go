@@ -7,6 +7,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 
 	"github.com/kyosu-1/ims/gen/api"
 	"github.com/kyosu-1/ims/internal/config"
@@ -48,6 +49,8 @@ func main() {
 			return ctx.Path() == "/health" || ctx.Path() == "/signin"
 		},
 	}))
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
 
 	api.RegisterHandlers(e, h)
 
