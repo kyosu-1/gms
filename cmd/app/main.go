@@ -12,6 +12,8 @@ import (
 	"github.com/kyosu-1/ims/internal/config"
 	"github.com/kyosu-1/ims/internal/handler"
 	"github.com/kyosu-1/ims/internal/repository/rdb"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
@@ -19,11 +21,18 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println(cfg.DB.DSN())
 	db, err := sqlx.Connect("mysql", cfg.DB.DSN())
 	if err != nil {
 		panic(err)
 	}
 	store := sessions.NewCookieStore([]byte(cfg.Session.Secret))
+
+	store.Options = &sessions.Options{
+		Path:     "/",
+		MaxAge:   86400 * 7,
+		HttpOnly: true,
+	}
 
 	e := echo.New()
 	h := handler.NewHandlers(
