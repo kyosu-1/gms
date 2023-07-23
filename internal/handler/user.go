@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"net/http"
 	"github.com/labstack/echo/v4"
 
 	"github.com/kyosu-1/ims/gen/api"
@@ -40,7 +41,7 @@ func (h *Handlers) PostSignin(ec echo.Context) error {
 		return err
 	}
 
-	return ec.NoContent(204)
+	return ec.NoContent(http.StatusNoContent)
 }
 
 func (h *Handlers) PostSignout(ec echo.Context) error {

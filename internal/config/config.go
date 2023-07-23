@@ -18,7 +18,7 @@ type ServerConfig struct {
 }
 
 type DBConfig struct {
-	Host     string `env:"DB_HOST" envDefault:"localhost"`
+	Host     string `env:"DB_HOST" envDefault:"db"`
 	Port     string `env:"DB_PORT" envDefault:"3306"`
 	User     string `env:"DB_USER" envDefault:"ims"`
 	Password string `env:"DB_PASSWORD" envDefault:"passw0rd"`

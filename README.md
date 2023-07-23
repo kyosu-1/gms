@@ -12,13 +12,30 @@ item management system(物品管理システム)
 
 1. アプリを立ち上げる
 ```shell
-make up
+$ make up
 ```
 
 2. データベースのmigrateを行う
 
 ```shell
-make db-migrate
+$ make db-migrate
+```
+
+3. テストデータを挿入する
+
+```shell
+$ make seed
+```
+
+## Examples
+
+signup
+
+```shell
+$ curl -X POST "http://localhost:8000/signin" \
+     -H "Content-Type: application/json" \
+     -d '{"id":"test-user","password":"hogehoge"}' \
+     -c cookie.txt
 ```
 
 ## Directory構造・アーキテクチャ
